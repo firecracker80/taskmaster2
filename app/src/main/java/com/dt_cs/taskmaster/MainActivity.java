@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setUpTaskBtns();
+        onResume();
+        setUpTaskRecyclerView();
     }
 
     private void setUpTaskBtns(){
@@ -55,14 +57,15 @@ public class MainActivity extends AppCompatActivity {
             startActivity(goToSettings);
         });
 
+    }
+
     @Override
-//    protected void onResume(){
-//        super.onResume();
-//        String userName = sharedPreferences.getString(Setting.USER_NAME_TAG, "No username");
-//            TextView userNameEdited = findViewById(R.id.MainActivityTextViewWelcome);
-//            userNameEdited.setText("Welcome to " + userName + "'s Tasks");
-//        }
-//    }
+    protected void onResume(){
+        super.onResume();
+        String userName = sharedPreferences.getString(Setting.USER_NAME_TAG, "No username");
+            TextView userNameEdited = findViewById(R.id.MainActivityTextViewWelcome);
+            userNameEdited.setText("Welcome to " + userName + "'s Tasks");
+        }
 
     private void setUpTaskRecyclerView(){
             RecyclerView taskRecyclerView = findViewById(R.id.TaskRecyclerView);
@@ -76,5 +79,5 @@ public class MainActivity extends AppCompatActivity {
             tasks.add(new Task("Read homework", "Read articles for homework by tomorrow", inProgress));
 
             TaskListRecyclerViewAdapter adapter = new TaskListRecyclerViewAdapter(tasks, this);
-        }
+    }
 }
