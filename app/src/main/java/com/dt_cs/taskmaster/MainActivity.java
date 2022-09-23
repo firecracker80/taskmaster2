@@ -1,12 +1,23 @@
 package com.dt_cs.taskmaster;
 
+import static com.dt_cs.taskmaster.models.Status.inProgress;
+import static com.dt_cs.taskmaster.models.Status.newTask;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.dt_cs.taskmaster.adapter.TaskListRecyclerViewAdapter;
+import com.dt_cs.taskmaster.models.Task;
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
@@ -44,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(goToSettings);
         });
 
-//    @Override
+    @Override
 //    protected void onResume(){
 //        super.onResume();
 //        String userName = sharedPreferences.getString(Setting.USER_NAME_TAG, "No username");
@@ -52,4 +63,18 @@ public class MainActivity extends AppCompatActivity {
 //            userNameEdited.setText("Welcome to " + userName + "'s Tasks");
 //        }
 //    }
+
+    private void setUpTaskRecyclerView(){
+            RecyclerView taskRecyclerView = findViewById(R.id.TaskRecyclerView);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            taskRecyclerView.setLayoutManager(layoutManager);
+
+            List<Task> tasks = new ArrayList<>();
+
+            tasks.add(new Task("Light bill", "Pay light bill by Friday.", newTask));
+            tasks.add(new Task("Groceries", "Make a list.", newTask));
+            tasks.add(new Task("Read homework", "Read articles for homework by tomorrow", inProgress));
+
+            TaskListRecyclerViewAdapter adapter = new TaskListRecyclerViewAdapter(tasks, this);
+        }
 }
