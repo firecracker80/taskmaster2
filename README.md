@@ -28,3 +28,15 @@ This page will hold the user's name input, which when saved, will display "Welco
 ![Home Page](Images/newhomepage.png)
 ![Settings](Images/settings.png)
 ![Task Details](Images/taskdetails.png)
+
+Lab 28 9/22/2022
+**Adapter**
+Created the RecyclerView adapter to enable rendering on the Main Activity.
+
+**Fragment**
+Created the TaskFragment, though I am not entirely sure how to use it, let alone what to put in the fragment xml.
+
+**Models**
+Create two models, Task, which holds the constructor for each task that will be created, and Status enum, which will hold the statuses for tasks created.
+
+I still have some syntax issues in the Main Activity for the onResume method and the RecyclerView. Not sure how to move forward from here. Hence the reason why the app won't build, and no screenshots available to show.

@@ -10,10 +10,19 @@
         android:id="@+id/AllTaskXmlTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
-        android:text=" Success! Your All Task button works."
+        android:layout_marginTop="16dp"
+        android:text="All Tasks"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/TaskRecyclerView"
+        android:layout_width="409dp"
+        android:layout_height="514dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AllTaskXmlTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
