@@ -40,3 +40,18 @@ Created the TaskFragment, though I am not entirely sure how to use it, let alone
 Create two models, Task, which holds the constructor for each task that will be created, and Status enum, which will hold the statuses for tasks created.
 
 I still have some syntax issues in the Main Activity for the onResume method and the RecyclerView. Not sure how to move forward from here. Hence the reason why the app won't build, and no screenshots available to show.
+
+Lab 29 9/24/2022
+
+**DAO**
+I created the DAO interface and linked it to the database. I have not yet entered any data to test it because the app has a few errors that I can't seem to solve yet.
+
+**Database**
+Both the task database and task converters were created, however, there are problems with both. In the database, the word entities is in read because it cannot reconcile it. I am not sure why and haven't yet found anything in research that could answer that question. In the converters, the word date is in red. Now, it is my understanding that it is something that gets passed in from Date, yet it is asking that I set a variable. 
+
+**AddTask**
+In this activity, there are two methods that were created, one in the Task model, and the other in the TaskDao interface. Neither is being recognized.
+
+To address all the errors, I have researched on google and I have searched for syntax errors. I am not finding anything significant that would cause these errors.
+
+![Task Details](Images/rview1.png)

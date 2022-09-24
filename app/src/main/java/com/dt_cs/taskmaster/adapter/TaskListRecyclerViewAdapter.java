@@ -58,6 +58,7 @@ public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter<TaskListRe
 
     public static class TaskListViewHolder extends RecyclerView.ViewHolder{
         public TaskListViewHolder(@NonNull View itemView){
+
             super(itemView);
         }
     }
