@@ -6,31 +6,61 @@ import static com.dt_cs.taskmaster.models.Status.newTask;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.dt_cs.taskmaster.adapter.TaskListRecyclerViewAdapter;
+import com.dt_cs.taskmaster.database.TaskDatabase;
 import com.dt_cs.taskmaster.models.Task;
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     public static final String TASK_NAME_EXTRA_TAG ="taskName";
+    public static final String DATABASE_NAME = "taskmaster_db";
+    TaskDatabase taskDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setUpTaskBtns();
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        taskDatabase = Room.databaseBuilder(
+                getApplicationContext(),
+                TaskDatabase.class,
+                DATABASE_NAME)
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();
+
+        taskDatabase.taskDao().findAll();
+
         onResume();
+        setUpTaskBtns();
+        setUpUserProfileImage();
         setUpTaskRecyclerView();
     }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        String userName = "userName";
+            if(sharedPreferences != null){
+                userName = sharedPreferences.getString(Setting.USER_NAME_TAG, "userName");
+            }
+        TextView userNameEdited = findViewById(R.id.MainActivityTextViewWelcome);
+            userNameEdited.setText("Welcome to " + userName + "'s Tasks");
+        }
 
     private void setUpTaskBtns(){
         Button addTaskBtn = findViewById(R.id.MainActivityAddTaskBtn);
@@ -57,15 +87,17 @@ public class MainActivity extends AppCompatActivity {
             startActivity(goToSettings);
         });
 
+
     }
 
-    @Override
-    protected void onResume(){
-        super.onResume();
-        String userName = sharedPreferences.getString(Setting.USER_NAME_TAG, "No username");
-            TextView userNameEdited = findViewById(R.id.MainActivityTextViewWelcome);
-            userNameEdited.setText("Welcome to " + userName + "'s Tasks");
-        }
+    private void setUpUserProfileImage(){
+        ImageView userImage = findViewById(R.id.mainActivityUserProfileImageView);
+        userImage.setOnClickListener(view -> {
+            Intent goToUserProfile = new Intent(MainActivity.this, UserProfile.class);
+            startActivity(goToUserProfile);
+        });
+    }
+
 
     private void setUpTaskRecyclerView(){
             RecyclerView taskRecyclerView = findViewById(R.id.TaskRecyclerView);
@@ -74,10 +106,11 @@ public class MainActivity extends AppCompatActivity {
 
             List<Task> tasks = new ArrayList<>();
 
-            tasks.add(new Task("Light bill", "Pay light bill by Friday.", newTask));
-            tasks.add(new Task("Groceries", "Make a list.", newTask));
-            tasks.add(new Task("Read homework", "Read articles for homework by tomorrow", inProgress));
+//            tasks.add(new Task("Light bill", "Pay light bill by Friday.", newTask));
+//            tasks.add(new Task("Groceries", "Make a list.", newTask));
+//            tasks.add(new Task("Read homework", "Read articles for homework by tomorrow", inProgress));
 
             TaskListRecyclerViewAdapter adapter = new TaskListRecyclerViewAdapter(tasks, this);
+            taskRecyclerView.setAdapter(adapter);
     }
 }
