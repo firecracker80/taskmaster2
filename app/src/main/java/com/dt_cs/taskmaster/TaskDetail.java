@@ -36,6 +36,7 @@ public class TaskDetail extends AppCompatActivity {
 
         tasks = taskDatabase.taskDao().findAll();
         setUpTaskRecyclerView();
+        setUpTaskTitle();
     }
 
     @Override
@@ -44,6 +45,16 @@ public class TaskDetail extends AppCompatActivity {
         tasks.clear();
         tasks.addAll(taskDatabase.taskDao().findAll());
 
+    }
+
+    private void setUpTaskTitle(){
+        Intent callingIntent = getIntent();
+        String taskTitleString = "";
+        if (callingIntent != null){
+            taskTitleString = ((Intent) callingIntent).getStringExtra(TaskDetail.TASK_NAME_EXTRA_TAG);
+            TextView addTaskTitle = findViewById(R.id.TaskDetailTextViewTitle);
+            addTaskTitle.setText(taskTitleString);
+        }
     }
 
     private void setUpTaskRecyclerView(){

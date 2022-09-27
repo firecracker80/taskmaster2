@@ -67,27 +67,27 @@ public class Task {
     }
 
     public enum Status {
-        newTask,
-        assigned,
-        inProgress,
-        complete,
-    }
+        NEWTASK("newTask"),
+        ASSIGNED("assigned"),
+        INPROGRESS("inProgress"),
+        COMPLETE("complete");
 
-    private final String taskType;
+        private final String taskType;
 
-    Status(String _taskType){
+        Status(String _taskType){
         this.taskType = _taskType;
     }
 
-    public String getTaskType(){
+        public String getTaskType(){
             return taskType;
         }
-    public static Status fromString(String possibleTaskType){
-    for(Status type : Status.values()){
+        public static Status fromString(String possibleTaskType){
+        for(Status type : Status.values()){
         if(type.taskType.equals(possibleTaskType)){
             return type;
+            }
         }
-    }
+
         return null;
     }
     @NonNull
@@ -97,5 +97,6 @@ public class Task {
             return "";
         }
         return taskType;
+    }
     }
 }

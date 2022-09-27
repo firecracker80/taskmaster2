@@ -34,20 +34,11 @@ public class AddTask extends AppCompatActivity {
                         .fallbackToDestructiveMigration()
                         .build();
 
-        setUpTaskTitle();
+//        setUpTaskTitle();
         setUpTypeSpinner();
         setUpSubmitBtn();
     }
 
-    private void setUpTaskTitle(){
-        Intent callingIntent = getIntent();
-        String taskTitleString = "";
-        if (callingIntent != null){
-            taskTitleString = ((Intent) callingIntent).getStringExtra(TaskDetail.TASK_NAME_EXTRA_TAG);
-            TextView addTaskTitle = findViewById(R.id.TaskDetailTextViewTitle);
-            addTaskTitle.setText(taskTitleString);
-        }
-    }
 
     private void setUpTypeSpinner(){
         Spinner taskTypeSpinner = findViewById(R.id.AddTaskTypeSpinner);
@@ -58,12 +49,10 @@ public class AddTask extends AppCompatActivity {
         ));
     }
 
-
-
     private void setUpSubmitBtn(){
         Spinner taskTypeSpinner = findViewById(R.id.AddTaskTypeSpinner);
         Button savedNewTaskBtn = findViewById(R.id.AddTaskSubmitBtn);
-
+        savedNewTaskBtn.setOnClickListener(view -> {
             String taskTitle = ((EditText)findViewById(R.id.AddTaskTitleET)).getText().toString();
             String taskDescription = ((EditText)findViewById(R.id.AddTaskDescriptionET)).getText().toString();
 
@@ -71,9 +60,10 @@ public class AddTask extends AppCompatActivity {
             Task.Status status = Task.Status.fromString(taskTypeSpinner.getSelectedItem().toString());
 
             Task newTask = new Task(taskTitle, taskDescription, status, newDate);
+            taskDatabase.taskDao().insertTask(newTask);
+            Intent goToAllTasks  = new Intent(AddTask.this, AllTasks.class);
+            startActivity((goToAllTasks));
+        });
 
-            taskDatabase.taskDao().insertATask(newTask);
-            Intent goToTaskDetail  = new Intent(AddTask.this, TaskDetail.class);
-            startActivity((goToTaskDetail));
     }
 }

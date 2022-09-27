@@ -7,7 +7,7 @@ import java.util.Date;
 public class TaskDatabaseConverters {
     @TypeConverter
     public static Date fromTimeStamp(Long value){
-        return value == null ? null : date.getTime();
+        return value == null ? null : new Date(value);
     }
 
     @TypeConverter
