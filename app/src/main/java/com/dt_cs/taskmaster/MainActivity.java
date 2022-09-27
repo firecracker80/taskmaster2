@@ -22,12 +22,16 @@ import java.util.List;
 import com.dt_cs.taskmaster.adapter.TaskListRecyclerViewAdapter;
 import com.dt_cs.taskmaster.database.TaskDatabase;
 import com.dt_cs.taskmaster.models.Task;
+import com.dt_cs.taskmaster.dao.TaskDao;
+
+
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     public static final String TASK_NAME_EXTRA_TAG ="taskName";
     public static final String DATABASE_NAME = "taskmaster_db";
     TaskDatabase taskDatabase;
+    List<Task> tasks = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
                 .fallbackToDestructiveMigration()
                 .build();
 
-        taskDatabase.taskDao().findAll();
+        List<Task> tasks;
+        tasks = taskDatabase.taskDao().findAll();
 
         onResume();
         setUpTaskBtns();
@@ -54,13 +59,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        tasks.clear();
+        tasks.addAll(taskDatabase.taskDao().findAll());
+
         String userName = "userName";
             if(sharedPreferences != null){
                 userName = sharedPreferences.getString(Setting.USER_NAME_TAG, "userName");
             }
         TextView userNameEdited = findViewById(R.id.MainActivityTextViewWelcome);
             userNameEdited.setText("Welcome to " + userName + "'s Tasks");
-        }
+
+    }
 
     private void setUpTaskBtns(){
         Button addTaskBtn = findViewById(R.id.MainActivityAddTaskBtn);
@@ -104,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             taskRecyclerView.setLayoutManager(layoutManager);
 
-            List<Task> tasks = new ArrayList<>();
 
 //            tasks.add(new Task("Light bill", "Pay light bill by Friday.", newTask));
 //            tasks.add(new Task("Groceries", "Make a list.", newTask));

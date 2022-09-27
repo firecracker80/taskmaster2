@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+
 import com.dt_cs.taskmaster.models.Task;
 
 import java.util.List;
@@ -24,4 +25,6 @@ public interface TaskDao {
 
     @Query("SELECT * FROM Task WHERE id = :id")
     Task findByAnId(long id);
+
+//    @Query("SELECT * FROM Task")
 }
