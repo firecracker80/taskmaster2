@@ -55,3 +55,7 @@ In this activity, there are two methods that were created, one in the Task model
 To address all the errors, I have researched on google and I have searched for syntax errors. I am not finding anything significant that would cause these errors.
 
 ![Task Details](Images/rview1.png)
+
+Lab 31 9/27/2022
+
+My app still has errors, some have to do with the limitations of my device. The app, which was running, is not running anymore. It gives the error, "Taskmaster stopped working". I have connected my physical android device and that didn't help. I have only written one test. You will see that there are several things that are red, although the dependencies are there and have been imported. I don't know what to do to move forward.
