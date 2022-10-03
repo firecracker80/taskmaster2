@@ -1,4 +1,4 @@
-package com.dt_cs.taskmaster;
+package com.dt_cs.taskmaster.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -8,11 +8,11 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 
+import com.dt_cs.taskmaster.R;
 import com.dt_cs.taskmaster.database.TaskDatabase;
-import com.dt_cs.taskmaster.models.Status;
 import com.dt_cs.taskmaster.models.Task;
 
 import java.util.Date;
@@ -37,6 +37,7 @@ public class AddTask extends AppCompatActivity {
 //        setUpTaskTitle();
         setUpTypeSpinner();
         setUpSubmitBtn();
+        setUpAddTaskBackBtns();
     }
 
 
@@ -65,5 +66,13 @@ public class AddTask extends AppCompatActivity {
             startActivity((goToAllTasks));
         });
 
+    }
+
+    private void setUpAddTaskBackBtns() {
+        ImageButton addTasksBackBtn = findViewById(R.id.AddTaskBackBtn);
+        addTasksBackBtn.setOnClickListener(view -> {
+            Intent goBackToMA = new Intent(AddTask.this, MainActivity.class);
+            startActivity(goBackToMA);
+        });
     }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 
 @Dao
 public interface TaskDao {
+
     @Insert
     public void insertTask(Task task);
 
@@ -25,6 +26,4 @@ public interface TaskDao {
 
     @Query("SELECT * FROM Task WHERE id = :id")
     Task findByAnId(long id);
-
-//    @Query("SELECT * FROM Task")
 }

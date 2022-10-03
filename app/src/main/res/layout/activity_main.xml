@@ -4,79 +4,111 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="#ECB365"
+    tools:context=".activities.MainActivity"><![CDATA[
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.498"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.535"/>
+
+
+
+
+
+
+
+
+
+
+
+    ]]>
+
+    <Button
+        android:id="@+id/UserProfileBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:backgroundTint="#064663"
+        android:text="Profile"
+        app:layout_constraintEnd_toStartOf="@+id/MainActivityAllTaskBtn"
+        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MainActivityTextViewWelcome" />
 
     <TextView
         android:id="@+id/MainActivityTextViewWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/bubblegum_sans"
         android:text="Welcome!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#FDFEFF"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/TaskRecyclerView" />
 
     <ImageView
         android:id="@+id/mainActivityUserProfileImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="156dp"
+        android:layout_height="148dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.084"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/MainActivityAddTaskBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#064663"
         android:text="Add Task"
         app:layout_constraintEnd_toStartOf="@+id/MainActivityAllTaskBtn"
-        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MainActivityTextViewWelcome" />
+        app:layout_constraintTop_toBottomOf="@+id/UserProfileBtn" />
 
     <Button
         android:id="@+id/MainActivityAllTaskBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="56dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="68dp"
+        android:backgroundTint="#064663"
         android:text="All Tasks"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MainActivityTextViewWelcome" />
+        app:layout_constraintTop_toBottomOf="@+id/MainActivtySettingsBtn" />
 
     <Button
-        android:id="@+id/MainActivityTaskBtn"
+        android:id="@+id/MainActivtySettingsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Task"
-        app:layout_constraintEnd_toStartOf="@+id/MainAcitivtySettingsBtn"
-        app:layout_constraintHorizontal_bias="0.424"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MainActivityAddTaskBtn" />
-
-    <Button
-        android:id="@+id/MainAcitivtySettingsBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="76dp"
+        android:backgroundTint="#064663"
         android:text="Settings"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MainActivityAllTaskBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/MainActivityTextViewWelcome" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/TaskRecyclerView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="180dp"
+        android:backgroundTint="#DDDDDD"
+        android:clipChildren="false"
+        android:clipToPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.643"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_wrapBehaviorInParent="horizontal_only" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

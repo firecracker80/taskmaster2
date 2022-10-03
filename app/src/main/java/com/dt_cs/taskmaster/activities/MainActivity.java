@@ -1,7 +1,4 @@
-package com.dt_cs.taskmaster;
-
-import static com.dt_cs.taskmaster.models.Status.inProgress;
-import static com.dt_cs.taskmaster.models.Status.newTask;
+package com.dt_cs.taskmaster.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,19 +13,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.dt_cs.taskmaster.R;
 import com.dt_cs.taskmaster.adapter.TaskListRecyclerViewAdapter;
 import com.dt_cs.taskmaster.database.TaskDatabase;
 import com.dt_cs.taskmaster.models.Task;
-import com.dt_cs.taskmaster.dao.TaskDao;
-
 
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     public static final String TASK_NAME_EXTRA_TAG ="taskName";
+    public static final String TASK_BODY_EXTRA_TAG = "taskBody";
+    public static final String TASK_STATUS_EXTRA_TAG = "taskStatus";
     public static final String DATABASE_NAME = "taskmaster_db";
     TaskDatabase taskDatabase;
     List<Task> tasks = null;
@@ -37,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         taskDatabase = Room.databaseBuilder(
@@ -47,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 .fallbackToDestructiveMigration()
                 .build();
 
-        List<Task> tasks;
+
         tasks = taskDatabase.taskDao().findAll();
 
         onResume();
@@ -84,16 +82,15 @@ public class MainActivity extends AppCompatActivity {
             startActivity(goToAllTasks);
         });
 
-        Button taskDetailBtn = findViewById(R.id.MainActivityTaskBtn);
-        taskDetailBtn.setOnClickListener(view -> {
-            Intent goToTaskDetail = new Intent(MainActivity.this, TaskDetail.class);
-            startActivity(goToTaskDetail);
-        });
-
-        Button settingsBtn = findViewById(R.id.MainAcitivtySettingsBtn);
+        Button settingsBtn = findViewById(R.id.MainActivtySettingsBtn);
         settingsBtn.setOnClickListener(view -> {
             Intent goToSettings = new Intent(MainActivity.this, Setting.class);
             startActivity(goToSettings);
+        });
+        Button profileBtn = findViewById(R.id.UserProfileBtn);
+        profileBtn.setOnClickListener(view -> {
+            Intent goToProfile = new Intent(MainActivity.this, UserProfile.class);
+            startActivity(goToProfile);
         });
 
 
@@ -112,11 +109,6 @@ public class MainActivity extends AppCompatActivity {
             RecyclerView taskRecyclerView = findViewById(R.id.TaskRecyclerView);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             taskRecyclerView.setLayoutManager(layoutManager);
-
-
-//            tasks.add(new Task("Light bill", "Pay light bill by Friday.", newTask));
-//            tasks.add(new Task("Groceries", "Make a list.", newTask));
-//            tasks.add(new Task("Read homework", "Read articles for homework by tomorrow", inProgress));
 
             TaskListRecyclerViewAdapter adapter = new TaskListRecyclerViewAdapter(tasks, this);
             taskRecyclerView.setAdapter(adapter);

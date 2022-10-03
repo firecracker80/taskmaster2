@@ -1,4 +1,4 @@
-package com.dt_cs.taskmaster;
+package com.dt_cs.taskmaster.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -6,26 +6,30 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.preference.PreferenceManager;
+import android.widget.ImageButton;
 
+import com.dt_cs.taskmaster.R;
 import com.dt_cs.taskmaster.adapter.TaskListRecyclerViewAdapter;
 import com.dt_cs.taskmaster.database.TaskDatabase;
 import com.dt_cs.taskmaster.models.Task;
 
 import java.util.List;
 
-public class TaskDetail extends AppCompatActivity {
-    public static final String TASK_NAME_EXTRA_TAG ="taskName";
+public class AllTasks extends AppCompatActivity {
     public static final String DATABASE_NAME = "taskmaster_db";
-    TaskDatabase taskDatabase;
     List<Task> tasks = null;
+    TaskDatabase taskDatabase;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task_detail);
+        setContentView(R.layout.activity_all_tasks);
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         taskDatabase = Room.databaseBuilder(
                         getApplicationContext(),
                         TaskDatabase.class,
@@ -35,37 +39,25 @@ public class TaskDetail extends AppCompatActivity {
                 .build();
 
         tasks = taskDatabase.taskDao().findAll();
+        setUpBtns();
         setUpTaskRecyclerView();
-        setUpTaskTitle();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        tasks.clear();
-        tasks.addAll(taskDatabase.taskDao().findAll());
 
+    private void setUpBtns() {
+        ImageButton allTasksBackBtn = findViewById(R.id.AllTaskBackBtn);
+        allTasksBackBtn.setOnClickListener(view -> {
+            Intent goBackToMA = new Intent(AllTasks.this, MainActivity.class);
+            startActivity(goBackToMA);
+        });
     }
 
-    private void setUpTaskTitle(){
-        Intent callingIntent = getIntent();
-        String taskTitleString = "";
-        if (callingIntent != null){
-            taskTitleString = ((Intent) callingIntent).getStringExtra(TaskDetail.TASK_NAME_EXTRA_TAG);
-            TextView addTaskTitle = findViewById(R.id.TaskDetailTextViewTitle);
-            addTaskTitle.setText(taskTitleString);
-        }
-    }
-
-    private void setUpTaskRecyclerView(){
+    private void setUpTaskRecyclerView() {
         RecyclerView taskRecyclerView = findViewById(R.id.TaskRecyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         taskRecyclerView.setLayoutManager(layoutManager);
 
         TaskListRecyclerViewAdapter adapter = new TaskListRecyclerViewAdapter(tasks, this);
         taskRecyclerView.setAdapter(adapter);
-
     }
-
-
 }

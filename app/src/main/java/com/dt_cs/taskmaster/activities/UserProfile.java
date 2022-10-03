@@ -1,4 +1,4 @@
-package com.dt_cs.taskmaster;
+package com.dt_cs.taskmaster.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.dt_cs.taskmaster.R;
 
 public class UserProfile extends AppCompatActivity {
     SharedPreferences sharedPreferences;
@@ -28,7 +30,7 @@ public class UserProfile extends AppCompatActivity {
             EditText userNameEdited = findViewById(R.id.SettingsXmlPlainTextUsername);
             userNameEdited.setText(userName);
         }
-
+        setUpBtns();
         setUpSubmitButton();
     }
 
@@ -45,6 +47,14 @@ public class UserProfile extends AppCompatActivity {
             preferenceEditor.apply();
 
             Toast.makeText(UserProfile.this, "Profile saved", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void setUpBtns() {
+        ImageButton userProfileBackBtn = findViewById(R.id.UserProfileBackBtn);
+        userProfileBackBtn.setOnClickListener(view -> {
+            Intent goBackToMA = new Intent(UserProfile.this, MainActivity.class);
+            startActivity(goBackToMA);
         });
     }
 

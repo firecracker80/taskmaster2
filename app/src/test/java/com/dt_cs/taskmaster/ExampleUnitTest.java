@@ -4,11 +4,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
-
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static android.support.test.espresso.Espresso.onView;
 import static androidx.core.content.MimeTypeFilter.matches;
+
+import com.dt_cs.taskmaster.activities.MainActivity;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

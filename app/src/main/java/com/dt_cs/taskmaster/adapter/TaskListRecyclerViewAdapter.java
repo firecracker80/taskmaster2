@@ -9,10 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.dt_cs.taskmaster.MainActivity;
+import com.dt_cs.taskmaster.activities.MainActivity;
 import com.dt_cs.taskmaster.R;
-import com.dt_cs.taskmaster.TaskDetail;
+import com.dt_cs.taskmaster.activities.TaskDetail;
 
 import java.util.List;
 
@@ -38,16 +37,23 @@ public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter<TaskListRe
     public void onBindViewHolder(@NonNull TaskListViewHolder holder, int position){
         TextView taskFragmentNameTextView = holder.itemView.findViewById(R.id.TaskFragmentName);
         String taskName = tasks.get(position).getTitle();
-        taskFragmentNameTextView.setText(position + ". " + taskName);
-        TextView taskFragTextViewType = holder.itemView.findViewById(R.id.TaskFragmentType);
-        String taskType = tasks.get(position).getBody();
-        taskFragTextViewType.setText(taskType);
+        taskFragmentNameTextView.setText((position + 1) + ". " + taskName);
+
+        TextView taskFragmentTextViewBody = holder.itemView.findViewById(R.id.TaskFragmentBody);
+        String taskBody = tasks.get(position).getBody();
+        taskFragmentTextViewBody.setText(taskBody);
+
+        TextView taskFragmentTextViewState = holder.itemView.findViewById(R.id.TaskFragmentStatus);
+        String taskStatus = tasks.get(position).getStatus().toString();
+        taskFragmentTextViewState.setText(taskStatus);
 
         View taskViewHolder = holder.itemView;
         taskViewHolder.setOnClickListener(view -> {
-            Intent goToTaskDetails = new Intent(callingActivity, TaskDetail.class);
-            goToTaskDetails.putExtra((MainActivity.TASK_NAME_EXTRA_TAG), taskName);
-            callingActivity.startActivity(goToTaskDetails);
+            Intent goToTaskDetailPage = new Intent(callingActivity, TaskDetail.class);
+            goToTaskDetailPage.putExtra(MainActivity.TASK_NAME_EXTRA_TAG, taskName);
+            goToTaskDetailPage.putExtra(MainActivity.TASK_BODY_EXTRA_TAG, taskBody);
+            goToTaskDetailPage.putExtra(MainActivity.TASK_STATUS_EXTRA_TAG, taskStatus);
+            callingActivity.startActivity(goToTaskDetailPage);
         });
     }
 

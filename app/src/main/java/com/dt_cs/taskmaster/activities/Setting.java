@@ -1,4 +1,4 @@
-package com.dt_cs.taskmaster;
+package com.dt_cs.taskmaster.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,10 +8,13 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Setting extends AppCompatActivity {
+import com.dt_cs.taskmaster.R;
+
+public class Setting extends AppCompatActivity{
     public static final String USER_NAME_TAG = "userName";
     SharedPreferences sharedPreferences;
     @Override
@@ -24,12 +27,13 @@ public class Setting extends AppCompatActivity {
 
         onResume();
         setUpSaveBtn();
+        setUpBtns();
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        String userName = sharedPreferences.getString(UserProfile.USER_NAME_TAG, "userName");
+        String userName = sharedPreferences.getString(UserProfile.USER_NAME_TAG, "");
         TextView userNameEdited = findViewById(R.id.SettingsXmlPlainTextUsername);
         userNameEdited.setText(userName);
     }
@@ -45,6 +49,14 @@ public class Setting extends AppCompatActivity {
             startActivity(goToSavedSettings);
 
             Toast.makeText(Setting.this, "Settings Saved", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void setUpBtns() {
+        ImageButton settingsBackBtn = findViewById(R.id.SettingsBackBtn);
+        settingsBackBtn.setOnClickListener(view -> {
+            Intent goBackToMA = new Intent(Setting.this, MainActivity.class);
+            startActivity(goBackToMA);
         });
     }
 }
