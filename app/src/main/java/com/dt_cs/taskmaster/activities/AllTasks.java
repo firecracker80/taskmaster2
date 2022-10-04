@@ -3,8 +3,6 @@ package com.dt_cs.taskmaster.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,15 +11,12 @@ import android.widget.ImageButton;
 
 import com.dt_cs.taskmaster.R;
 import com.dt_cs.taskmaster.adapter.TaskListRecyclerViewAdapter;
-import com.dt_cs.taskmaster.database.TaskDatabase;
 import com.dt_cs.taskmaster.models.Task;
 
 import java.util.List;
 
 public class AllTasks extends AppCompatActivity {
-    public static final String DATABASE_NAME = "taskmaster_db";
     List<Task> tasks = null;
-    TaskDatabase taskDatabase;
     SharedPreferences sharedPreferences;
 
     @Override
@@ -30,15 +25,8 @@ public class AllTasks extends AppCompatActivity {
         setContentView(R.layout.activity_all_tasks);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        taskDatabase = Room.databaseBuilder(
-                        getApplicationContext(),
-                        TaskDatabase.class,
-                        DATABASE_NAME)
-                .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
-                .build();
 
-        tasks = taskDatabase.taskDao().findAll();
+        /*tasks = taskDatabase.taskDao().findAll();*/
         setUpBtns();
         setUpTaskRecyclerView();
     }

@@ -1,22 +1,17 @@
 package com.dt_cs.taskmaster.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.dt_cs.taskmaster.R;
-import com.dt_cs.taskmaster.database.TaskDatabase;
 import com.dt_cs.taskmaster.models.Task;
 
 import java.util.List;
 
 public class TaskDetail extends AppCompatActivity {
-    public static final String DATABASE_NAME = "taskmaster_db";
-    TaskDatabase taskDatabase;
     List<Task> tasks = null;
 
     @Override
@@ -24,15 +19,6 @@ public class TaskDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail);
 
-        taskDatabase = Room.databaseBuilder(
-                        getApplicationContext(),
-                        TaskDatabase.class,
-                        DATABASE_NAME)
-                .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
-                .build();
-
-        tasks = taskDatabase.taskDao().findAll();
         setUpBtns();
     }
 
@@ -40,7 +26,7 @@ public class TaskDetail extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         tasks.clear();
-        tasks.addAll(taskDatabase.taskDao().findAll());
+        /*tasks.addAll(taskDatabase.taskDao().findAll());*/
 
         String taskName = getIntent().getStringExtra("taskName");
         TextView taskNameEdited = findViewById(R.id.TaskDetailTextViewTitle);
