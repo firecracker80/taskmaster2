@@ -9,13 +9,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.amplifyframework.datastore.generated.model.Task;
 import com.dt_cs.taskmaster.activities.MainActivity;
 import com.dt_cs.taskmaster.R;
 import com.dt_cs.taskmaster.activities.TaskDetail;
 
 import java.util.List;
-
-import com.dt_cs.taskmaster.models.Task;
 
 public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter<TaskListRecyclerViewAdapter.TaskListViewHolder> {
     List<Task> tasks;

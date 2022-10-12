@@ -1,5 +1,7 @@
 package com.dt_cs.taskmaster.activities;
 
+import static com.dt_cs.taskmaster.activities.AddTask.Tag;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,16 +9,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.ImageButton;
 
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Task;
 import com.dt_cs.taskmaster.R;
 import com.dt_cs.taskmaster.adapter.TaskListRecyclerViewAdapter;
-import com.dt_cs.taskmaster.models.Task;
 
 import java.util.List;
 
 public class AllTasks extends AppCompatActivity {
     List<Task> tasks = null;
+    TaskListRecyclerViewAdapter adapter;
     SharedPreferences sharedPreferences;
 
     @Override
@@ -25,6 +31,21 @@ public class AllTasks extends AppCompatActivity {
         setContentView(R.layout.activity_all_tasks);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        Amplify.API.query(
+                ModelQuery.list(Task.class),
+                successResponse -> {
+                    Log.i(Tag, "Read AddTask successfully!");
+                    tasks.clear();
+                    for (Task dataTask : successResponse.getData()){
+                        tasks.add(dataTask);
+                    }
+                    runOnUiThread(() -> {
+                        adapter.notifyDataSetChanged();
+                    });
+                },
+                failureResponse -> Log.i(Tag, "Did not read AddTask successfully")
+        );
 
         /*tasks = taskDatabase.taskDao().findAll();*/
         setUpBtns();
@@ -45,7 +66,7 @@ public class AllTasks extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         taskRecyclerView.setLayoutManager(layoutManager);
 
-        TaskListRecyclerViewAdapter adapter = new TaskListRecyclerViewAdapter(tasks, this);
+        adapter = new TaskListRecyclerViewAdapter(tasks, this);
         taskRecyclerView.setAdapter(adapter);
     }
 }

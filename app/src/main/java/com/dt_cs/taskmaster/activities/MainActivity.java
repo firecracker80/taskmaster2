@@ -1,5 +1,7 @@
 package com.dt_cs.taskmaster.activities;
 
+import static com.dt_cs.taskmaster.activities.AddTask.Tag;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,9 +17,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Task;
 import com.dt_cs.taskmaster.R;
 import com.dt_cs.taskmaster.adapter.TaskListRecyclerViewAdapter;
-import com.dt_cs.taskmaster.models.Task;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -46,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        /*tasks.clear();*/
 
         String userName = "userName";
             if(sharedPreferences != null){
@@ -54,6 +58,22 @@ public class MainActivity extends AppCompatActivity {
             }
         TextView userNameEdited = findViewById(R.id.MainActivityTextViewWelcome);
             userNameEdited.setText("Welcome to " + userName + "'s Tasks");
+
+        Amplify.API.query(
+                ModelQuery.list(Task.class),
+                successResponse -> {
+                    Log.i(Tag, "Read AddTask successfully!");
+                    tasks.clear();
+                    for (Task dataTask : successResponse.getData()){
+                        tasks.add(dataTask);
+                    }
+                    runOnUiThread(() -> {
+                        adapter.notifyDataSetChanged();
+                    });
+                },
+                failureResponse -> Log.i(Tag, "Did not read AddTask successfully")
+        );
+
 
     }
 

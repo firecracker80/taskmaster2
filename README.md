@@ -59,3 +59,10 @@ To address all the errors, I have researched on google and I have searched for s
 Lab 31 9/27/2022
 
 My app still has errors, some have to do with the limitations of my device. The app, which was running, is not running anymore. It gives the error, "Taskmaster stopped working". I have connected my physical android device and that didn't help. I have only written one test. You will see that there are several things that are red, although the dependencies are there and have been imported. I don't know what to do to move forward.
+
+Lab 32 10/11/2022
+
+Implemented and initialized AWS Amplify. Replaced Room with DynamoDB and refactored the RecyclerView to display tasks added via the AddTask form, stored in the DynamoDB table. At the moment, it adds the tasks entered into the form and displays, however, when I click the All Tasks button, the app crashes. When it did work, dispite pointing in the right direction, it would go to Settings instead of All Tasks.
+
+![Task Details](Images/awstasks.png)
+![Task Details](Images/awstable.png)

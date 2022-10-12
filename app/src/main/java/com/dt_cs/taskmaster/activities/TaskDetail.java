@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.amplifyframework.datastore.generated.model.Task;
 import com.dt_cs.taskmaster.R;
-import com.dt_cs.taskmaster.models.Task;
 
 import java.util.List;
 

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "taskmaster2",
+    "serviceName": "AppSync",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 90,
+      "apiKeyExpirationDate": "2023-01-09T13:10:17.825Z",
+      "keyDescription": "task model"
+    },
+    "conflictResolution": {},
+    "additionalAuthTypes": []
+  }
+}
