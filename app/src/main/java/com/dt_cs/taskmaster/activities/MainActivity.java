@@ -13,12 +13,13 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amazonaws.mobileconnectors.cognitoauth.Auth;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUserAttributeKey;
+import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.Team;
@@ -42,6 +43,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        Amplify.Auth.fetchAuthSession(
+                result -> Log.i("AmplifyQuickstart", result.toString()),
+                error -> Log.e("AmplifyQuickstart", error.toString())
+        );
+
+        Amplify.Auth.signUp("yari@yvelazquez.com", "myecon2020",
+                AuthSignUpOptions.builder()
+                        .userAttribute(AuthUserAttributeKey.email(), "yari@yvelazquez.com")
+                        .userAttribute(AuthUserAttributeKey.nickname(), "Firecracker")
+                        .build(),
+                success -> Log.i(Tag, "Signup succeeded with username" + "yari@yvelazquez.com" + "with message: " + success),
+                failure -> Log.i(Tag, "Signup failed with username" + "yari@yvelazquez.com" + "with message: " + failure)
+        );
 
        /* tasks = taskDatabase.taskDao().findAll();*/
 
