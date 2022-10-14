@@ -17,9 +17,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.datastore.generated.model.Team;
 import com.dt_cs.taskmaster.R;
 import com.dt_cs.taskmaster.adapter.TaskListRecyclerViewAdapter;
 
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TASK_NAME_EXTRA_TAG ="taskName";
     public static final String TASK_BODY_EXTRA_TAG = "taskBody";
     public static final String TASK_STATUS_EXTRA_TAG = "taskStatus";
+    public static final String TAG = "MainActivity";
     List<Task> tasks = new ArrayList<>();
     TaskListRecyclerViewAdapter adapter;
 
@@ -46,6 +49,33 @@ public class MainActivity extends AppCompatActivity {
         setUpTaskBtns();
         setUpUserProfileImage();
         setUpTaskRecyclerView();
+
+        Team teamHouse = Team.builder()
+                .name("House")
+                .build();
+        Amplify.API.mutate(
+                ModelMutation.create(teamHouse),
+                success -> Log.i(TAG, "Team House built"),
+                failure -> Log.i(TAG, "Team House not built")
+                );
+
+        Team teamWork = Team.builder()
+                .name("Work")
+                .build();
+        Amplify.API.mutate(
+                ModelMutation.create(teamWork),
+                success -> Log.i(TAG, "Team Work built"),
+                failure -> Log.i(TAG, "Team Work not built")
+        );
+
+        Team teamSchool = Team.builder()
+                .name("School")
+                .build();
+        Amplify.API.mutate(
+                ModelMutation.create(teamSchool),
+                success -> Log.i(TAG, "Team School built"),
+                failure -> Log.i(TAG, "Team School not built")
+        );
     }
 
     @Override

@@ -1,22 +1,37 @@
 package com.dt_cs.taskmaster.activities;
 
+import static com.dt_cs.taskmaster.activities.AddTask.Tag;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Team;
 import com.dt_cs.taskmaster.R;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class Setting extends AppCompatActivity{
     public static final String USER_NAME_TAG = "userName";
     SharedPreferences sharedPreferences;
+    Spinner teamSpinner = null;
+    CompletableFuture<List<Team>> teamFuture = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,5 +73,32 @@ public class Setting extends AppCompatActivity{
             Intent goBackToMA = new Intent(Setting.this, MainActivity.class);
             startActivity(goBackToMA);
         });
+    }
+
+    private void setUpTeamSpinner(){
+        Amplify.API.query(
+                ModelQuery.list(Team.class),
+                success -> {
+                    Log.i(Tag, "Read teams successfully");
+                    ArrayList<String> teamNames = new ArrayList<>();
+                    ArrayList<Team> teams = new ArrayList<>();
+                    for (Team team : success.getData()){
+                        teams.add(team);
+                        teamNames.add(team.getName());
+                    }
+                    teamFuture.complete(teams);
+                    runOnUiThread(() -> {
+                        teamSpinner.setAdapter(new ArrayAdapter<>(
+                                this,
+                                android.R.layout.simple_spinner_item,
+                                teamNames
+                        ));
+                    });
+                },
+                failure -> {
+                    teamFuture.complete(null);
+                    Log.i(Tag, "Did not read teams successfully");
+                }
+        );
     }
 }
