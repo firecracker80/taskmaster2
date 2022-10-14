@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
   "api": {
     "taskmaster2": {
@@ -11,7 +10,7 @@
             "authenticationType": "API_KEY",
             "apiKeyConfig": {
               "apiKeyExpirationDays": 90,
-              "apiKeyExpirationDate": "2023-01-09T13:10:17.825Z",
+              "apiKeyExpirationDate": "2023-01-12T14:05:26.234Z",
               "description": "task model"
             }
           },
@@ -19,28 +18,34 @@
         }
       }
     }
-  }
-=======
-{
-  "api": {
-    "taskmaster2": {
-      "service": "AppSync",
+  },
+  "auth": {
+    "taskmaster27643a4e3": {
+      "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
-      "output": {
-        "authConfig": {
-          "defaultAuthentication": {
-            "authenticationType": "API_KEY",
-            "apiKeyConfig": {
-              "apiKeyExpirationDays": 90,
-              "apiKeyExpirationDate": "2023-01-11T12:58:18.865Z",
-              "description": "task model"
-            }
-          },
-          "additionalAuthenticationProviders": []
-        }
+      "customAuth": false,
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
       }
     }
   }
->>>>>>> 6fb5d6e0bf91747ebd341128fc6771acb235e8de
+
 }
