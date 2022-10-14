@@ -66,3 +66,7 @@ Implemented and initialized AWS Amplify. Replaced Room with DynamoDB and refacto
 
 ![Task Details](Images/awstasks.png)
 ![Task Details](Images/awstable.png)
+
+Lab 33
+
+Implemented Teams. The app is now crashing even before it launches. The few times it has launched, the moment I click one of the buttons, it crashes again. 

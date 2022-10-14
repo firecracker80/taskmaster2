@@ -1,6 +1,5 @@
 package com.dt_cs.taskmaster.activities;
 
-import static com.amplifyframework.datastore.generated.model.Task.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -13,16 +12,23 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.datastore.generated.model.Status;
 import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.datastore.generated.model.Team;
 import com.dt_cs.taskmaster.R;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class AddTask extends AppCompatActivity {
     public static final String Tag = "AddTask";
+    Spinner teamSpinner = null;
+    CompletableFuture<List<Team>> teamFuture = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,34 @@ public class AddTask extends AppCompatActivity {
         setUpTypeSpinner();
         setUpSubmitBtn();
         setUpAddTaskBackBtns();
+        setUpTeamSpinner();
+    }
+
+    private void setUpTeamSpinner(){
+        Amplify.API.query(
+                ModelQuery.list(Team.class),
+                success -> {
+                    Log.i(Tag, "Read teams successfully");
+                    ArrayList<String> teamNames = new ArrayList<>();
+                    ArrayList<Team> teams = new ArrayList<>();
+                    for (Team team : success.getData()){
+                        teams.add(team);
+                        teamNames.add(team.getName());
+                    }
+                    teamFuture.complete(teams);
+                    runOnUiThread(() -> {
+                        teamSpinner.setAdapter(new ArrayAdapter<>(
+                                this,
+                                android.R.layout.simple_spinner_item,
+                                teamNames
+                        ));
+                    });
+                },
+                failure -> {
+                    teamFuture.complete(null);
+                    Log.i(Tag, "Did not read teams successfully");
+                }
+        );
     }
 
 
