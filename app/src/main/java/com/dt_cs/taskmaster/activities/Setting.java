@@ -28,9 +28,12 @@ import java.util.concurrent.CompletableFuture;
 
 public class Setting extends AppCompatActivity{
     public static final String USER_NAME_TAG = "userName";
+    public static final String USER_TEAM_TAG = "userTeam";
     SharedPreferences sharedPreferences;
     Spinner teamSpinner = null;
     CompletableFuture<List<Team>> teamFuture = null;
+    List<String> teamNames = null;
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class Setting extends AppCompatActivity{
         onResume();
         setUpSaveBtn();
         setUpBtns();
+        setUpTeamSpinner();
     }
 
     @Override
@@ -51,31 +55,8 @@ public class Setting extends AppCompatActivity{
         String userName = sharedPreferences.getString(UserProfile.USER_NAME_TAG, "");
         TextView userNameEdited = findViewById(R.id.SettingsXmlPlainTextUsername);
         userNameEdited.setText(userName);
-    }
+        teamFuture = new CompletableFuture<>();
 
-    private void setUpSaveBtn (){
-        Button saveBtn = findViewById(R.id.SettingXmlSaveBtn);
-        saveBtn.setOnClickListener(view -> {
-            SharedPreferences.Editor preferenceEditor = sharedPreferences.edit();
-            String nameInput = ((EditText) findViewById(R.id.SettingsXmlPlainTextUsername)).getText().toString();
-            preferenceEditor.putString(USER_NAME_TAG, nameInput);
-            preferenceEditor.apply();
-            Intent goToSavedSettings = new Intent(Setting.this, Setting.class);
-            startActivity(goToSavedSettings);
-
-            Toast.makeText(Setting.this, "Settings Saved", Toast.LENGTH_SHORT).show();
-        });
-    }
-
-    private void setUpBtns() {
-        ImageButton settingsBackBtn = findViewById(R.id.SettingsBackBtn);
-        settingsBackBtn.setOnClickListener(view -> {
-            Intent goBackToMA = new Intent(Setting.this, MainActivity.class);
-            startActivity(goBackToMA);
-        });
-    }
-
-    private void setUpTeamSpinner(){
         Amplify.API.query(
                 ModelQuery.list(Team.class),
                 success -> {
@@ -100,5 +81,37 @@ public class Setting extends AppCompatActivity{
                     Log.i(Tag, "Did not read teams successfully");
                 }
         );
+    }
+
+    private void setUpSaveBtn (){
+        Button saveBtn = findViewById(R.id.SettingXmlSaveBtn);
+        Spinner teamSpinner = findViewById(R.id.SettingTeamSpinner);
+
+        saveBtn.setOnClickListener(view -> {
+            SharedPreferences.Editor preferenceEditor = sharedPreferences.edit();
+            String nameInput = ((EditText) findViewById(R.id.SettingsXmlPlainTextUsername)).getText().toString();
+            preferenceEditor.putString(USER_NAME_TAG, nameInput);
+            String teamChoice = ((String) teamSpinner.getSelectedItem());
+            preferenceEditor.putString(USER_TEAM_TAG, teamChoice);
+            preferenceEditor.apply();
+            Intent goToSavedSettings = new Intent(Setting.this, Setting.class);
+            startActivity(goToSavedSettings);
+
+            Toast.makeText(Setting.this, "Settings Saved", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void setUpBtns() {
+        ImageButton settingsBackBtn = findViewById(R.id.SettingsBackBtn);
+        settingsBackBtn.setOnClickListener(view -> {
+            Intent goBackToMA = new Intent(Setting.this, MainActivity.class);
+            startActivity(goBackToMA);
+        });
+    }
+
+    private void setUpTeamSpinner(){
+        Spinner teamSpinner = findViewById(R.id.SettingTeamSpinner);
+        adapter = new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, teamNames);
+        teamSpinner.setAdapter(adapter);
     }
 }

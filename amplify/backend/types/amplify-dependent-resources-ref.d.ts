@@ -1,13 +1,3 @@
-<<<<<<< Updated upstream
-export type AmplifyDependentResourcesAttributes = {
-    "api": {
-        "taskmaster2": {
-            "GraphQLAPIKeyOutput": "string",
-            "GraphQLAPIIdOutput": "string",
-            "GraphQLAPIEndpointOutput": "string"
-        }
-    }
-=======
 export type AmplifyDependentResourcesAttributes = {
     "api": {
         "taskmaster2": {
@@ -27,5 +17,4 @@ export type AmplifyDependentResourcesAttributes = {
             "AppClientID": "string"
         }
     }
->>>>>>> Stashed changes
 }

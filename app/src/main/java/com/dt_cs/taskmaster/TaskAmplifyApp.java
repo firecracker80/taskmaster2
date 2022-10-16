@@ -15,8 +15,8 @@ public class TaskAmplifyApp extends Application {
     public void onCreate(){
         super.onCreate();
         try{
-            Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.configure(getApplicationContext());
         } catch(AmplifyException ae){
             Log.e(Tag, "Error initializing Amplify: " + ae.getMessage(), ae);

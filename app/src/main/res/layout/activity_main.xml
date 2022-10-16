@@ -41,14 +41,14 @@
         android:id="@+id/MainActivityTextViewWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="48dp"
         android:fontFamily="@font/bubblegum_sans"
         android:text="Welcome!"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#FDFEFF"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TaskRecyclerView" />
 
@@ -56,7 +56,7 @@
         android:id="@+id/mainActivityUserProfileImageView"
         android:layout_width="156dp"
         android:layout_height="148dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="120dp"
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -101,14 +101,40 @@
         android:id="@+id/TaskRecyclerView"
         android:layout_width="wrap_content"
         android:layout_height="160dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="268dp"
         android:backgroundTint="#DDDDDD"
         android:clipChildren="false"
         android:clipToPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_wrapBehaviorInParent="horizontal_only" />
+
+    <TextView
+        android:id="@+id/activityMainUsernameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:fontFamily="@font/bubblegum_sans"
+        android:hint="Username"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.127"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/activityMainUserTeamTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/bubblegum_sans"
+        android:hint="Team"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.127"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activityMainUsernameTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

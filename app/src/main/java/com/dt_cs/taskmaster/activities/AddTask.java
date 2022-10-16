@@ -24,11 +24,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class AddTask extends AppCompatActivity {
     public static final String Tag = "AddTask";
     Spinner teamSpinner = null;
     CompletableFuture<List<Team>> teamFuture = null;
+    Team selectedTeam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +39,13 @@ public class AddTask extends AppCompatActivity {
 
         setUpTypeSpinner();
         setUpSubmitBtn();
-        setUpAddTaskBackBtns();
+        setUpAddTaskBackBtn();
         setUpTeamSpinner();
     }
 
     private void setUpTeamSpinner(){
+        teamFuture = new CompletableFuture<>();
+
         Amplify.API.query(
                 ModelQuery.list(Team.class),
                 success -> {
@@ -79,9 +83,29 @@ public class AddTask extends AppCompatActivity {
     }
 
     private void setUpSubmitBtn(){
+
+        Spinner taskStateSpinner = findViewById(R.id.AddTaskTypeSpinner);
+        Button addTaskSubmitButton = findViewById(R.id.AddTaskSubmitBtn);
+        Spinner teamSpinner = findViewById(R.id.AddTaskTeamSpinner);
+
+        addTaskSubmitButton.setOnClickListener((view -> {
+
+            String selectedTeamString = teamSpinner.getSelectedItem().toString();
+            List<Team> teams = null;
+            try {
+                teams = teamFuture.get();
+            } catch (InterruptedException ie) {
+                ie.printStackTrace();
+                Thread.currentThread().interrupt();
+            } catch (ExecutionException ee) {
+                ee.printStackTrace();
+            }
+
+            selectedTeam = teams.stream().filter(t -> t.getName().equals(selectedTeamString)).findAny().orElseThrow(RuntimeException::new);
+
         Spinner taskTypeSpinner = findViewById(R.id.AddTaskTypeSpinner);
         Button savedNewTaskBtn = findViewById(R.id.AddTaskSubmitBtn);
-        savedNewTaskBtn.setOnClickListener(view -> {
+        savedNewTaskBtn.setOnClickListener((view1 -> {
             String taskTitle = ((EditText)findViewById(R.id.AddTaskTitleET)).getText().toString();
             String taskDescription = ((EditText)findViewById(R.id.AddTaskDescriptionET)).getText().toString();
             String currentDateString = com.amazonaws.util.DateUtils.formatISO8601Date(new Date());
@@ -100,15 +124,16 @@ public class AddTask extends AppCompatActivity {
            );
             Intent goToAllTasks  = new Intent(AddTask.this, AllTasks.class);
             startActivity((goToAllTasks));
-        });
+            }));
 
+        }));
     }
 
-    private void setUpAddTaskBackBtns() {
+    private void setUpAddTaskBackBtn() {
         ImageButton addTasksBackBtn = findViewById(R.id.AddTaskBackBtn);
-        addTasksBackBtn.setOnClickListener(view -> {
+        addTasksBackBtn.setOnClickListener((view -> {
             Intent goBackToMA = new Intent(AddTask.this, MainActivity.class);
             startActivity(goBackToMA);
-        });
-    }
+            }));
+        }
 }
