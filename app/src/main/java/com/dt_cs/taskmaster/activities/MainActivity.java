@@ -29,6 +29,10 @@ import com.dt_cs.taskmaster.adapter.TaskListRecyclerViewAdapter;
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
+    TextView userTasksTV;
+    TextView userTeamTV;
+    String userTeam;
+    String username;
     public static final String TASK_NAME_EXTRA_TAG ="taskName";
     public static final String TASK_BODY_EXTRA_TAG = "taskBody";
     public static final String TASK_STATUS_EXTRA_TAG = "taskStatus";
@@ -44,10 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        Amplify.Auth.fetchAuthSession(
-                result -> Log.i("AmplifyQuickstart", result.toString()),
-                error -> Log.e("AmplifyQuickstart", error.toString())
-        );
 
         Amplify.Auth.signUp("yari@yvelazquez.com", "myecon2020",
                 AuthSignUpOptions.builder()
@@ -58,6 +58,20 @@ public class MainActivity extends AppCompatActivity {
                 failure -> Log.i(Tag, "Signup failed with username" + "yari@yvelazquez.com" + "with message: " + failure)
         );
 
+        Amplify.Auth.confirmSignUp("yari@yvelazquez.com","606164",
+                success -> Log.i(Tag, "Verification succeeded: " + success),
+                failure -> Log.i(Tag, "Verification failed: " + failure)
+                );
+
+        Amplify.Auth.signIn("yari@yvelazquez.com","myecon2020",
+                success -> Log.i(Tag,"Login succeeded: " + success),
+                failure -> Log.i(Tag,"Login failed: " + failure)
+                );
+
+        Amplify.Auth.fetchAuthSession(
+                result -> Log.i("AmplifyQuickstart", result.toString()),
+                error -> Log.e("AmplifyQuickstart", error.toString())
+        );
        /* tasks = taskDatabase.taskDao().findAll();*/
 
         onResume();
@@ -99,7 +113,12 @@ public class MainActivity extends AppCompatActivity {
 
         String userName = "userName";
             if(sharedPreferences != null){
-                userName = sharedPreferences.getString(Setting.USER_NAME_TAG, "userName");
+                username = sharedPreferences.getString(Setting.USER_NAME_TAG, "userName");
+                userTeam = sharedPreferences.getString(Setting.USER_TEAM_TAG, "Choose a team!");
+                userTasksTV = findViewById(R.id.activityMainUsernameTextView);
+                userTeamTV = findViewById(R.id.activityMainUserTeamTextView);
+                userTasksTV.setText(userName + "'s Tasks:");
+                userTeamTV.setText(userTeam);
             }
         TextView userNameEdited = findViewById(R.id.MainActivityTextViewWelcome);
             userNameEdited.setText("Welcome to " + userName + "'s Tasks");
